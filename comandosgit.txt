@@ -1,0 +1,82 @@
+#GitHubTips
+•	Iniciar repo: git init
+•	Ver estado stagging area: git status
+##Commits
+•	Añadir archivos al stagging area: git add archivo.txt | git add .(todos) | git add *.txt(todos los .txt)
+•	Eliminar archivo stagging area: git reset archivo.txt
+•	Hacer un commit: git commit -m "Breve descripcion del commit"
+o	Añadir algo a un commit (Ya comiteado):
+	git commit -m 'initial commit'
+	git add forgotten_file
+	git commit --amend
+•	Eliminar archivo del staging area git reset HEAD <file>
+•	Ver los commits: git log
+•	Ver commits de manera pesiosa: git log --graph --abbrev-commit --decorate --date=relative --all
+•	Ir a un commit determinado
+o	A través de etiquetas: git checkout -f etiqueta-1
+o	A traves de los commits: git checkout <commit ID>
+o	Para volver a la cabecera de la rama git checkout master
+•	Ver diferencias entre commits git diff 0da94be 59ff30c
+##Repositorios remotos
+•	Conectarse a un repositorio remoto: git remote add origin https://github.com/usuario/nombre_repos.git
+•	Enviar cambios al repositorio remoto: git push -u origin master
+•	Recibir los cambios de un repositorio remoto: git pull origin master
+•	Remover un repositorio remoto: git remote rm origin
+##Ramas/branch
+•	Crear un branch:git branch mi_branch
+•	Ver los branchs: git branch
+•	Cambiar a trabajar sobre el branch: git checkout mi_branch
+•	unificar branchs: git merge mi_branch | Cambiamos previamente al branch sobre el que vamos a unificar(git checkout master)
+•	Borrar un branch:
+o	Creamos un branch y cambiamos a el: git branch otro_branch| git checkout otro_branch | git push origin otro_branch
+o	Borrar local branch: git branch -D mi_branch
+o	Borrar rama remoto: git push origin :mi_branch
+En caso de que estemos borrando el master, primero tendremos que ir al repo remoto y -->settings-->branches-->Default branch-->otro_branch
+•	Borrar en local ramas borradas del remoto git remote prune origin
+##Clonando repos remotos
+•	Clonar repo remoto: git clone https://github.com/Jimeno0/mymap.git | si añadimos un nombre al final no lo clona en una carpeta con dicho nombre
+##Mantener dos ramas sync
+•	Cambiar al gh-pages: git checkout gh-pages
+•	Ponemos el branch gh-pages al día con master: git rebase master
+•	Comiteamos: git push origin gh-pages
+##Borrar/ignorar
+•	Remover cambios previos al stagging area: git stash
+•	Borrar archivos: git rm archivo.txt | a pelo: rm -rf nombrearchivo
+•	Para evitar subir archivos innecesarios al repo: Añadimos un fichero .gitignore con los nombres de los archivos
+Añadir etiquetas
+git tag -a etiqueta-1 9fceb02 -m "Message para la equiteta"
+Donde 9fceb02 es el comnienzo del id del commit ( se pueden ver con git log)
+Organizar
+El stagging area es unica. Podemos añadir cambios desde una rama, añadirlos al estagging area y si cambio a otro rama y comiteo estoy comiteando los cambios de la primera rama en la segunda
+•	borrar una rama (tipico despues de un merge) : $git branch -d my_branch
+•	Crear un branch y entrar automaticamente en él (atajo par branch && checkout) $git checkout -b my_other branch
+•	Merges on conflicts(primero tenemos que estar en master): $git merge my_branch. Nos pone en los archivos conflictivos de master unos simbolos
+<<<<<<< HEAD
+    {your code here}
+=======
+    {some different code here}
+>>>>>>> {some commit SHA}
+•	Si querermos ver donde stan los ficheros que petan podemos hacer git statusy vemos que peta. Si lo hacemos despues de haber hecho los cambios nos saldrán las modificaciones que hayamos hecho
+•	los cambiamos, volvemos a git add . y comiteamos . Perfect
+Conflicts are the same to mergeand pull/push
+THE RESET BUTTON git merge --abort para abortar un merge bizzarro. Mejor que enviar el merge al servidor y petarlo
+•	git remote prune origin borra referencias de ramas locales que no existen en remote (REFERENCIAS de GIT que no la rama) borrar trash
+•	git fetch para traerse las metas de las ramas en remoto
+o	Cuando tnemos esas metas podemos hacer (lo de abajo)
+o	git branch -a para ver las ramas en remoto
+o	Y podemos hacer checkout a la rama que sea y traernos los cambios
+---- To organize -----
+Ver ramas tanto locales como repotas: git branch -a
+Forzar ponernos al día con la rama en remoto: git reset --hard HEAD
+Remover archivos cacheados para que deje de trakearmelos si los tengo en el .gitignore: git rm -r --cached debug.log nbproject ¿Realmente hace esto? Investigar
+Que tenga en cuenta las mayuscula/min en los nombres de archivos: git config core.ignorecase false
+•	Deshacer los cambios en un archivo git checkout src/locale/es.json (resetear a master)
+•	Comitear los cambios al ultimo commit (por si hacer algo light que no quieres que vaya en otro commit git commit --ammend
+##Stash
+•	Añadir los untracked a un stash (alias) stash-all = stash save --include-untracked
+•	Traerte los stash git stash apply o git stash apply stash@{14}
+•	Traerte el stash y lo borra git stash pop o git stash pop stash@{14}
+•	Ver la lista de stash git stash list
+•	Ver el diff dentro de un stash git stash show -p stash@\{2\}
+##squash
+Combinar todos los commits en uno (los ultimos 3) git rebase -i HEAD~3
